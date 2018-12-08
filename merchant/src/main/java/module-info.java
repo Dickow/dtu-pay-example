@@ -7,4 +7,5 @@ module merchant {
     requires spring.context;
     requires spring.beans;
     requires chortlin.core;
+    requires shared;
 }
