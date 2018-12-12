@@ -1,5 +1,7 @@
-package com.dickow.dtu.pay.example.bank;
+package com.dickow.dtu.pay.example.bank.controllers;
 
+import com.dickow.chortlin.shared.annotations.ChortlinOnInvoke;
+import com.dickow.chortlin.shared.annotations.ChortlinOnReturn;
 import com.dickow.dtu.pay.example.shared.Console;
 import com.dickow.dtu.pay.example.shared.dto.TransactionDTO;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class BankController {
 
     @PostMapping("transactions")
+    @ChortlinOnInvoke
+    @ChortlinOnReturn
     public ResponseEntity<Boolean> transfer(@RequestBody TransactionDTO transaction){
         Console.invocation(this.getClass());
         return new ResponseEntity<>(HttpStatus.OK);

@@ -1,16 +1,15 @@
-module merchant {
+module choreographychecker {
     requires spring.web;
-    requires java.net.http;
-    requires spring.boot;
     requires spring.boot.autoconfigure;
+    requires spring.boot;
     requires com.fasterxml.jackson.databind;
     requires spring.context;
     requires spring.beans;
 
+    requires chortlin.checker;
 
-    requires chortlin.interception;
+    requires bank;
+    requires dtupay;
+    requires merchant;
     requires shared;
-
-
-    exports com.dickow.dtu.pay.example.merchant;
 }

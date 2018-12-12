@@ -1,5 +1,7 @@
 package com.dickow.dtu.pay.example.dtu;
 
+import com.dickow.chortlin.shared.annotations.ChortlinOnInvoke;
+import com.dickow.chortlin.shared.annotations.ChortlinOnReturn;
 import com.dickow.dtu.pay.example.shared.Console;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ public class DTUPayController {
     }
 
     @PostMapping("{merchant}/{token}")
+    @ChortlinOnInvoke
+    @ChortlinOnReturn
     public ResponseEntity<Boolean> pay(
             @PathVariable String merchant, @RequestBody Integer amount, @PathVariable String token) {
         Console.invocation(this.getClass());

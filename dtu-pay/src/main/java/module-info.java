@@ -1,11 +1,14 @@
 module dtupay {
     requires spring.web;
-    requires transitive jdk.incubator.httpclient;
-    requires spring.boot.autoconfigure;
+    requires java.net.http;
     requires spring.boot;
+    requires spring.boot.autoconfigure;
     requires com.fasterxml.jackson.databind;
     requires spring.context;
     requires spring.beans;
-    requires chortlin.core;
+
+    requires chortlin.interception;
     requires shared;
+
+    exports com.dickow.dtu.pay.example.dtu;
 }

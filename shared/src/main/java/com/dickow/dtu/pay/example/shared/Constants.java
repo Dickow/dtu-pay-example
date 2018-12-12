@@ -1,8 +1,15 @@
 package com.dickow.dtu.pay.example.shared;
 
 public abstract class Constants {
-    public static final String PORT_NUMBER = "8080";
-    public static final String BASE_URL = "http://localhost:" + PORT_NUMBER + "/";
-    public static final String BANK_BASE_URL = BASE_URL+"bank/";
-    public static final String DTUPAY_BASE_URL = BASE_URL+"dtu/pay/";
+    private static final String LOCALHOST = "http://localhost";
+
+    public static final String BANK_PORT_NUMBER = "30000";
+    public static final String MERCHANT_PORT_NUMBER = "31000";
+    public static final String DTU_PAY_PORT_NUMBER = "32000";
+    public static final String CHOREOGRAPHY_CHECKER_PORT_NUMBER = "33000";
+
+    public static final String BANK_BASE_URL = LOCALHOST+":"+BANK_PORT_NUMBER+"/bank/";
+    public static final String DTU_PAY_BASE_URL = LOCALHOST+":"+DTU_PAY_PORT_NUMBER+"/dtu/pay/";
+    public static final String MERCHANT_BASE_URL = LOCALHOST+":"+MERCHANT_PORT_NUMBER+"/merchant/";
+    public static final String CHOREOGRAPHY_CHECKER_BASE_URL = LOCALHOST+":"+CHOREOGRAPHY_CHECKER_PORT_NUMBER+"/traces/";
 }

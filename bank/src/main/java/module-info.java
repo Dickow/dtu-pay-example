@@ -1,11 +1,13 @@
 module bank {
-    requires spring.web;
-    requires jdk.incubator.httpclient;
     requires spring.boot.autoconfigure;
+    requires spring.web;
     requires spring.boot;
     requires com.fasterxml.jackson.databind;
     requires spring.context;
     requires spring.beans;
-    requires chortlin.core;
+
+    requires chortlin.interception;
     requires shared;
+
+    exports com.dickow.dtu.pay.example.bank.controllers;
 }
