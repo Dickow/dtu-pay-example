@@ -1,6 +1,6 @@
 package com.dickow.dtu.pay.example.shared;
 
-import com.dickow.chortlin.interception.strategy.ChortlinSender;
+import com.dickow.chortlin.interception.sending.ChortlinSender;
 import com.dickow.chortlin.shared.trace.dto.InvocationDTO;
 import com.dickow.chortlin.shared.trace.dto.ReturnDTO;
 import com.google.gson.Gson;

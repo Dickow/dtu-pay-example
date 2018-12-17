@@ -1,6 +1,6 @@
 package com.dickow.dtu.pay.example.merchant;
 
-import com.dickow.chortlin.interception.strategy.InterceptionConfiguration;
+import com.dickow.chortlin.interception.configuration.InterceptionConfiguration;
 import com.dickow.dtu.pay.example.shared.Constants;
 import com.dickow.dtu.pay.example.shared.TraceSender;
 import org.springframework.boot.SpringApplication;
