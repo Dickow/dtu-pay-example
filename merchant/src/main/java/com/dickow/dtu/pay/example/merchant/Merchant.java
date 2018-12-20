@@ -1,7 +1,7 @@
 package com.dickow.dtu.pay.example.merchant;
 
-import com.dickow.chortlin.shared.annotations.ChortlinOnInvoke;
-import com.dickow.chortlin.shared.annotations.ChortlinOnReturn;
+import com.dickow.chortlin.shared.annotations.TraceInvocation;
+import com.dickow.chortlin.shared.annotations.TraceReturn;
 import com.dickow.dtu.pay.example.shared.Console;
 import com.dickow.dtu.pay.example.shared.Constants;
 import com.dickow.dtu.pay.example.shared.dto.PaymentDTO;
@@ -20,8 +20,8 @@ public class Merchant {
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
     @PostMapping(value = "{merchant}/pay")
-    @ChortlinOnInvoke
-    @ChortlinOnReturn
+    @TraceInvocation
+    @TraceReturn
     public ResponseEntity pay(@PathVariable String merchant, @RequestBody PaymentDTO payment){
         Console.invocation(this.getClass());
         try {

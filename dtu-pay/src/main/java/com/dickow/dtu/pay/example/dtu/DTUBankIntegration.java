@@ -1,7 +1,7 @@
 package com.dickow.dtu.pay.example.dtu;
 
-import com.dickow.chortlin.shared.annotations.ChortlinOnInvoke;
-import com.dickow.chortlin.shared.annotations.ChortlinOnReturn;
+import com.dickow.chortlin.shared.annotations.TraceInvocation;
+import com.dickow.chortlin.shared.annotations.TraceReturn;
 import com.dickow.dtu.pay.example.shared.Constants;
 import com.dickow.dtu.pay.example.shared.dto.TransactionDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -17,8 +17,8 @@ public class DTUBankIntegration {
     private final ObjectMapper objectMapper = new ObjectMapper();
     private final HttpClient httpClient = HttpClient.newHttpClient();
 
-    @ChortlinOnInvoke
-    @ChortlinOnReturn
+    @TraceInvocation
+    @TraceReturn
     public boolean transferMoney(String merchant, String customer, Integer amount)
     {
         var transaction = new TransactionDTO(merchant, customer, amount);

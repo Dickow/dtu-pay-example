@@ -7,6 +7,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="bank" />
+        <module name="choreography-checker" />
         <module name="choreographychecker" />
         <module name="dtu-pay" />
         <module name="dtupay" />
@@ -14,5 +15,13 @@
         <module name="shared" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="bank" target="11" />
+      <module name="choreography-checker" target="11" />
+      <module name="dtu-pay" target="11" />
+      <module name="dtu-pay-example" target="1.5" />
+      <module name="merchant" target="11" />
+      <module name="shared" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

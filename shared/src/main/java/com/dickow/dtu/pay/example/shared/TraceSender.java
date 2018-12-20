@@ -1,6 +1,5 @@
 package com.dickow.dtu.pay.example.shared;
 
-import com.dickow.chortlin.interception.sending.ChortlinSender;
 import com.dickow.chortlin.shared.trace.dto.InvocationDTO;
 import com.dickow.chortlin.shared.trace.dto.ReturnDTO;
 import com.google.gson.Gson;
@@ -12,7 +11,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class TraceSender implements ChortlinSender {
+public class TraceSender implements com.dickow.chortlin.interception.sending.TraceSender {
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final Gson gson = new Gson();
 

@@ -1,8 +1,8 @@
 package com.dickow.dtu.pay.example.choreographychecker;
 
+import com.dickow.chortlin.checker.checker.ChoreographyChecker;
+import com.dickow.chortlin.checker.checker.factory.OnlineCheckerFactory;
 import com.dickow.chortlin.checker.choreography.Choreography;
-import com.dickow.chortlin.checker.receiver.ChortlinReceiver;
-import com.dickow.chortlin.checker.receiver.ChortlinReceiverFactory;
 import com.dickow.dtu.pay.example.bank.controllers.BankController;
 import com.dickow.dtu.pay.example.dtu.DTUBankIntegration;
 import com.dickow.dtu.pay.example.dtu.DTUPayController;
@@ -30,7 +30,7 @@ import static com.dickow.chortlin.checker.correlation.factory.CorrelationFactory
 public class ApplicationStart {
 
     @Bean
-    public ChortlinReceiver chortlinReceiver() {
+    public ChoreographyChecker choreographyChecker() {
         var client = external("Client");
         var merchant = participant(Merchant.class);
         var dtuPay = participant(DTUPayController.class);
@@ -66,7 +66,7 @@ public class ApplicationStart {
                 .end()
                 .setCorrelation(cdef);
 
-        return ChortlinReceiverFactory.setupSynchronousReceiver(List.of(choreography), new ErrorHandler());
+        return OnlineCheckerFactory.createOnlineChecker(List.of(choreography));
     }
 
     public static void main(String[] args) {
