@@ -3,10 +3,8 @@ package com.dickow.dtu.pay.example.choreographychecker;
 import com.dickow.chortlin.checker.checker.ChoreographyChecker;
 import com.dickow.chortlin.checker.checker.factory.OnlineCheckerFactory;
 import com.dickow.chortlin.checker.choreography.Choreography;
-import com.dickow.dtu.pay.example.bank.controllers.BankController;
-import com.dickow.dtu.pay.example.dtu.DTUBankIntegration;
-import com.dickow.dtu.pay.example.dtu.DTUPayController;
-import com.dickow.dtu.pay.example.merchant.Merchant;
+import com.dickow.chortlin.checker.correlation.builder.PathBuilder;
+import com.dickow.chortlin.checker.correlation.factory.CorrelationFactory;
 import com.dickow.dtu.pay.example.shared.Constants;
 import com.dickow.dtu.pay.example.shared.dto.PaymentDTO;
 import com.dickow.dtu.pay.example.shared.dto.TransactionDTO;
@@ -32,25 +30,25 @@ public class ApplicationStart {
     @Bean
     public ChoreographyChecker choreographyChecker() {
         var client = external("Client");
-        var merchant = participant(Merchant.class);
-        var dtuPay = participant(DTUPayController.class);
-        var dtuBank = participant(DTUBankIntegration.class);
-        var bank = participant(BankController.class);
+        var merchant = participant("com.dickow.dtu.pay.example.merchant.Merchant");
+        var dtuPay = participant("com.dickow.dtu.pay.example.dtu.DTUPayController");
+        var dtuBank = participant("com.dickow.dtu.pay.example.dtu.DTUBankIntegration");
+        var bank = participant("com.dickow.dtu.pay.example.bank.controllers.BankController");
 
         var cdef = defineCorrelation()
-                .add(correlation(merchant.onMethod("pay", Merchant::pay),
-                        "merchantId", (String merchantId, PaymentDTO payment) -> merchantId)
-                        .extendFromInput("merchantId", (String merchantId, PaymentDTO payment) -> merchantId)
+                .add(correlation(merchant.onMethod("pay"),
+                        "merchantId", PathBuilder.root().node("merchantId").build())
+                        .extendFromInput("merchantId", PathBuilder.root().node("merchantId").build())
                         .done())
-                .add(correlation(dtuPay.onMethod("pay", DTUPayController::pay),
-                        "merchantId", (String merchantId, Integer amount, String token) -> merchantId)
-                        .extendFromInput("userId", (String merchantId, Integer amount, String token) -> token)
+                .add(correlation(dtuPay.onMethod("pay"),
+                        "merchantId", PathBuilder.root().node("merchantId").build())
+                        .extendFromInput("userId", PathBuilder.root().node("token").build())
                         .done())
-                .add(correlation(dtuBank.onMethod("transferMoney", DTUBankIntegration::transferMoney),
-                        "userId", (String merchantId, String customer, Integer amount) -> customer)
+                .add(correlation(dtuBank.onMethod("transferMoney"),
+                        "userId", PathBuilder.root().node("customer").build())
                         .noExtensions())
-                .add(correlation(bank.onMethod("transfer", BankController::transfer),
-                        "userId", TransactionDTO::getCustomer)
+                .add(correlation(bank.onMethod("transfer"),
+                        "userId", PathBuilder.root().node("transaction").node("customer").build())
                         .noExtensions())
                 .finish();
 

@@ -8,8 +8,5 @@ module choreographychecker {
 
     requires chortlin.checker;
 
-    requires bank;
-    requires dtupay;
-    requires merchant;
     requires shared;
 }

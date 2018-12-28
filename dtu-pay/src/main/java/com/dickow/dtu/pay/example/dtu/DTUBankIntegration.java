@@ -1,7 +1,7 @@
 package com.dickow.dtu.pay.example.dtu;
 
-import com.dickow.chortlin.shared.annotations.TraceInvocation;
-import com.dickow.chortlin.shared.annotations.TraceReturn;
+import com.dickow.chortlin.interception.annotations.TraceInvocation;
+import com.dickow.chortlin.interception.annotations.TraceReturn;
 import com.dickow.dtu.pay.example.shared.Constants;
 import com.dickow.dtu.pay.example.shared.dto.TransactionDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;

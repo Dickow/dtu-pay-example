@@ -1,10 +1,7 @@
 package com.dickow.dtu.pay.example.choreographychecker;
 
 import com.dickow.chortlin.checker.checker.ChoreographyChecker;
-import com.dickow.chortlin.checker.checker.result.CheckResult;
-import com.dickow.chortlin.shared.exceptions.ChoreographyRuntimeException;
-import com.dickow.chortlin.shared.trace.dto.InvocationDTO;
-import com.dickow.chortlin.shared.trace.dto.ReturnDTO;
+import com.dickow.chortlin.shared.trace.protobuf.DtoDefinitions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +21,13 @@ public class TraceController {
     }
 
     @PostMapping(value = "invocation")
-    public ResponseEntity<Void> checkInvocation(@RequestBody InvocationDTO invocationTrace){
+    public ResponseEntity<Void> checkInvocation(@RequestBody DtoDefinitions.InvocationDTO invocationTrace){
         choreographyChecker.check(invocationTrace);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping(value = "return")
-    public ResponseEntity<Void> checkReturn(@RequestBody ReturnDTO returnTrace){
+    public ResponseEntity<Void> checkReturn(@RequestBody DtoDefinitions.ReturnDTO returnTrace){
         choreographyChecker.check(returnTrace);
         return new ResponseEntity<>(HttpStatus.OK);
     }
