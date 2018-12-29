@@ -4,15 +4,13 @@ import com.dickow.chortlin.checker.checker.ChoreographyChecker;
 import com.dickow.chortlin.checker.checker.factory.OnlineCheckerFactory;
 import com.dickow.chortlin.checker.choreography.Choreography;
 import com.dickow.chortlin.checker.correlation.builder.PathBuilder;
-import com.dickow.chortlin.checker.correlation.factory.CorrelationFactory;
 import com.dickow.dtu.pay.example.shared.Constants;
-import com.dickow.dtu.pay.example.shared.dto.PaymentDTO;
-import com.dickow.dtu.pay.example.shared.dto.TransactionDTO;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,6 +26,11 @@ import static com.dickow.chortlin.checker.correlation.factory.CorrelationFactory
 public class ApplicationStart {
 
     @Bean
+    ProtobufHttpMessageConverter protobufHttpMessageConverter() {
+        return new ProtobufHttpMessageConverter();
+    }
+
+    @Bean
     public ChoreographyChecker choreographyChecker() {
         var client = external("Client");
         var merchant = participant("com.dickow.dtu.pay.example.merchant.Merchant");
@@ -37,11 +40,11 @@ public class ApplicationStart {
 
         var cdef = defineCorrelation()
                 .add(correlation(merchant.onMethod("pay"),
-                        "merchantId", PathBuilder.root().node("merchantId").build())
-                        .extendFromInput("merchantId", PathBuilder.root().node("merchantId").build())
+                        "merchantId", PathBuilder.root().node("merchant").build())
+                        .extendFromInput("merchantId", PathBuilder.root().node("merchant").build())
                         .done())
                 .add(correlation(dtuPay.onMethod("pay"),
-                        "merchantId", PathBuilder.root().node("merchantId").build())
+                        "merchantId", PathBuilder.root().node("merchant").build())
                         .extendFromInput("userId", PathBuilder.root().node("token").build())
                         .done())
                 .add(correlation(dtuBank.onMethod("transferMoney"),

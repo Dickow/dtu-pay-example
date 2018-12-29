@@ -9,4 +9,6 @@ module choreographychecker {
     requires chortlin.checker;
 
     requires shared;
+
+    opens com.dickow.dtu.pay.example.choreographychecker to spring.core, spring.beans, spring.context, spring.web;
 }

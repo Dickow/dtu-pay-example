@@ -20,13 +20,13 @@ public class TraceController {
         this.choreographyChecker = choreographyChecker;
     }
 
-    @PostMapping(value = "invocation")
+    @PostMapping(value = "invocation", consumes = {"application/x-protobuf"})
     public ResponseEntity<Void> checkInvocation(@RequestBody DtoDefinitions.InvocationDTO invocationTrace){
         choreographyChecker.check(invocationTrace);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping(value = "return")
+    @PostMapping(value = "return", consumes = {"application/x-protobuf"})
     public ResponseEntity<Void> checkReturn(@RequestBody DtoDefinitions.ReturnDTO returnTrace){
         choreographyChecker.check(returnTrace);
         return new ResponseEntity<>(HttpStatus.OK);
