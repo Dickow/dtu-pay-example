@@ -16,12 +16,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="bank" target="11" />
       <module name="choreography-checker" target="11" />
-      <module name="dtu-pay" target="11" />
-      <module name="dtu-pay-example" target="1.5" />
-      <module name="merchant" target="11" />
-      <module name="shared" target="11" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

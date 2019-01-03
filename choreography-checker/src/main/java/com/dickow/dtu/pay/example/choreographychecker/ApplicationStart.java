@@ -3,7 +3,6 @@ package com.dickow.dtu.pay.example.choreographychecker;
 import com.dickow.chortlin.checker.checker.ChoreographyChecker;
 import com.dickow.chortlin.checker.checker.factory.OnlineCheckerFactory;
 import com.dickow.chortlin.checker.choreography.Choreography;
-import com.dickow.chortlin.checker.correlation.builder.PathBuilder;
 import com.dickow.dtu.pay.example.shared.Constants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -19,6 +18,7 @@ import static com.dickow.chortlin.checker.choreography.participant.ParticipantFa
 import static com.dickow.chortlin.checker.choreography.participant.ParticipantFactory.participant;
 import static com.dickow.chortlin.checker.correlation.factory.CorrelationFactory.correlation;
 import static com.dickow.chortlin.checker.correlation.factory.CorrelationFactory.defineCorrelation;
+import static com.dickow.chortlin.checker.correlation.factory.PathBuilderFactory.root;
 
 @Configuration
 @EnableAutoConfiguration
@@ -40,18 +40,18 @@ public class ApplicationStart {
 
         var cdef = defineCorrelation()
                 .add(correlation(merchant.onMethod("pay"),
-                        "merchantId", PathBuilder.root().node("merchant").build())
-                        .extendFromInput("merchantId", PathBuilder.root().node("merchant").build())
+                        "merchantId", root().node("merchant").build())
+                        .extendFromInput("merchantId", root().node("merchant").build())
                         .done())
                 .add(correlation(dtuPay.onMethod("pay"),
-                        "merchantId", PathBuilder.root().node("merchant").build())
-                        .extendFromInput("userId", PathBuilder.root().node("token").build())
+                        "merchantId", root().node("merchant").build())
+                        .extendFromInput("userId", root().node("token").build())
                         .done())
                 .add(correlation(dtuBank.onMethod("transferMoney"),
-                        "userId", PathBuilder.root().node("customer").build())
+                        "userId", root().node("customer").build())
                         .noExtensions())
                 .add(correlation(bank.onMethod("transfer"),
-                        "userId", PathBuilder.root().node("transaction").node("customer").build())
+                        "userId", root().node("transaction").node("customer").build())
                         .noExtensions())
                 .finish();
 
