@@ -2,7 +2,6 @@ package com.dickow.dtu.pay.example.choreographychecker;
 
 import com.dickow.chortlin.checker.checker.ChoreographyChecker;
 import com.dickow.chortlin.checker.checker.factory.OnlineCheckerFactory;
-import com.dickow.chortlin.checker.choreography.Choreography;
 import com.dickow.dtu.pay.example.shared.Constants;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,6 +13,7 @@ import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 import java.util.Collections;
 import java.util.List;
 
+import static com.dickow.chortlin.checker.ast.types.factory.TypeFactory.interaction;
 import static com.dickow.chortlin.checker.choreography.participant.ParticipantFactory.external;
 import static com.dickow.chortlin.checker.choreography.participant.ParticipantFactory.participant;
 import static com.dickow.chortlin.checker.correlation.factory.CorrelationFactory.correlation;
@@ -55,8 +55,8 @@ public class ApplicationStart {
                         .noExtensions())
                 .finish();
 
-        var choreography = Choreography.builder()
-                .interaction(client, merchant.onMethod("pay"), "initiate payment")
+        var choreography =
+                 interaction(client, merchant.onMethod("pay"), "initiate payment")
                 .interaction(merchant, dtuPay.onMethod("pay"), "pay")
                 .interaction(dtuPay, dtuBank.onMethod("transferMoney"), "integrate with bank")
                 .interaction(dtuBank, bank.onMethod("transfer"), "perform transfer at bank")
