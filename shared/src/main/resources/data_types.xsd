@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="https://dtu/pay/schema"
+           xmlns:dtu="https://dtu/pay/schema"
+           elementFormDefault="qualified">
+    <xs:complexType name="payment">
+        <xs:sequence>
+            <xs:element name="token" type="xs:string"/>
+            <xs:element name="amount" type="xs:integer"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="merchant_pay">
+        <xs:sequence>
+            <xs:element name="merchant" type="xs:string"/>
+            <xs:element name="body" type="dtu:payment"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="dtu_pay">
+        <xs:sequence>
+            <xs:element name="merchant" type="xs:string"/>
+            <xs:element name="amount" type="xs:integer"/>
+            <xs:element name="token" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="bank_transfer">
+        <xs:sequence>
+            <xs:element name="merchant" type="xs:string"/>
+            <xs:element name="customer" type="xs:string"/>
+            <xs:element name="amount" type="xs:integer"/>
+        </xs:sequence>
+    </xs:complexType>
+</xs:schema>
