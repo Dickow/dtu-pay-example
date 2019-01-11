@@ -18,7 +18,7 @@ import static com.dickow.chortlin.checker.choreography.participant.ParticipantFa
 import static com.dickow.chortlin.checker.choreography.participant.ParticipantFactory.participant;
 import static com.dickow.chortlin.checker.correlation.factory.CorrelationFactory.correlation;
 import static com.dickow.chortlin.checker.correlation.factory.CorrelationFactory.defineCorrelation;
-import static com.dickow.chortlin.checker.correlation.factory.PathBuilderFactory.root;
+import static com.dickow.chortlin.checker.correlation.factory.PathBuilderFactory.node;
 
 @Configuration
 @EnableAutoConfiguration
@@ -40,18 +40,18 @@ public class ApplicationStart {
 
         var cdef = defineCorrelation()
                 .add(correlation(merchant.onMethod("pay"),
-                        "merchantId", root().node("merchant").build())
-                        .extendFromInput("merchantId", root().node("merchant").build())
+                        "merchantId", node("merchant").build())
+                        .extendFromInput("merchantId", node("merchant").build())
                         .done())
                 .add(correlation(dtuPay.onMethod("pay"),
-                        "merchantId", root().node("merchant").build())
-                        .extendFromInput("userId", root().node("token").build())
+                        "merchantId", node("merchant").build())
+                        .extendFromInput("userId", node("token").build())
                         .done())
                 .add(correlation(dtuBank.onMethod("transferMoney"),
-                        "userId", root().node("customer").build())
+                        "userId", node("customer").build())
                         .noExtensions())
                 .add(correlation(bank.onMethod("transfer"),
-                        "userId", root().node("transaction").node("customer").build())
+                        "userId", node("transaction").node("customer").build())
                         .noExtensions())
                 .finish();
 
