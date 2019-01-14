@@ -37,6 +37,7 @@ public class ApplicationStart {
         var dtuPay = participant("com.dickow.dtu.pay.example.dtu.DTUPayController");
         var dtuBank = participant("com.dickow.dtu.pay.example.dtu.DTUBankIntegration");
         var bank = participant("com.dickow.dtu.pay.example.bank.controllers.BankController");
+        var vipBank = participant("com.dickow.dtu.pay.example.bank.controllers.VipBankController");
 
         var cdef = defineCorrelation()
                 .add(correlation(merchant.onMethod("pay"),
@@ -53,18 +54,28 @@ public class ApplicationStart {
                 .add(correlation(bank.onMethod("transfer"),
                         "userId", node("transaction").node("customer").build())
                         .noExtensions())
+                .add(correlation(vipBank.onMethod("transfer"),
+                        "userId", node("transaction").node("customer").build())
+                        .noExtensions())
                 .finish();
 
         var choreography =
                  interaction(client, merchant.onMethod("pay"), "initiate payment")
                 .interaction(merchant, dtuPay.onMethod("pay"), "pay")
                 .interaction(dtuPay, dtuBank.onMethod("transferMoney"), "integrate with bank")
-                .interaction(dtuBank, bank.onMethod("transfer"), "perform transfer at bank")
-                .returnFrom(bank.onMethod("transfer"), "return once transferred")
-                .returnFrom(dtuBank.onMethod("transferMoney"), "return from the DTU bank integration")
-                .returnFrom(dtuPay.onMethod("pay"), "return from dtu pay")
-                .returnFrom(merchant.onMethod("pay"), "finished payment")
-                .end()
+                 .choice(interaction(dtuBank, bank.onMethod("transfer"), "perform transfer at bank")
+                         .returnFrom(bank.onMethod("transfer"), "return once transferred")
+                         .returnFrom(dtuBank.onMethod("transferMoney"), "return from the DTU bank integration")
+                         .returnFrom(dtuPay.onMethod("pay"), "return from dtu pay")
+                         .returnFrom(merchant.onMethod("pay"), "finished payment")
+                         .end(),
+                         interaction(dtuBank, vipBank.onMethod("transfer"), "perform transfer at bank")
+                         .returnFrom(vipBank.onMethod("transfer"), "return once transferred")
+                         .returnFrom(dtuBank.onMethod("transferMoney"), "return from the DTU bank integration")
+                         .returnFrom(dtuPay.onMethod("pay"), "return from dtu pay")
+                         .returnFrom(merchant.onMethod("pay"), "finished payment")
+                         .end()
+                 )
                 .setCorrelation(cdef);
 
         return OnlineCheckerFactory.createOnlineChecker(List.of(choreography));

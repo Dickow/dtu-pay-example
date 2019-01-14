@@ -22,9 +22,11 @@ public class DTUBankIntegration {
     public boolean transferMoney(String merchant, String customer, Integer amount)
     {
         var transaction = new TransactionDTO(merchant, customer, amount);
+        var url = amount > 9999 ? Constants.BANK_BASE_URL+"vip/transactions" : Constants.BANK_BASE_URL+"transactions";
+
         try {
             var body = objectMapper.writeValueAsString(transaction);
-            var request = HttpRequest.newBuilder(new URI(Constants.BANK_BASE_URL+"transactions"))
+            var request = HttpRequest.newBuilder(new URI(url))
                     .POST(HttpRequest.BodyPublishers.ofString(body))
                     .header("content-type", "application/json")
                     .build();
