@@ -9,6 +9,7 @@ module choreographychecker {
     requires chortlin.checker;
 
     requires shared;
+    requires com.fasterxml.jackson.core;
 
     opens com.dickow.dtu.pay.example.choreographychecker to spring.core, spring.beans, spring.context, spring.web;
 }

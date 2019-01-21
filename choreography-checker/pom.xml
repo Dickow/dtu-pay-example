@@ -62,7 +62,6 @@
                             <classifier>spring-boot</classifier>
                         </configuration>
                     </execution>
-
                 </executions>
             </plugin>
         </plugins>

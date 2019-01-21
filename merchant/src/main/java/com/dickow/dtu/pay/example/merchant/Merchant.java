@@ -2,6 +2,7 @@ package com.dickow.dtu.pay.example.merchant;
 
 import com.dickow.chortlin.interception.annotations.TraceInvocation;
 import com.dickow.chortlin.interception.annotations.TraceReturn;
+import com.dickow.dtu.pay.example.merchant.dto.TransactionReceiptDTO;
 import com.dickow.dtu.pay.example.shared.Console;
 import com.dickow.dtu.pay.example.shared.Constants;
 import com.dickow.dtu.pay.example.shared.dto.PaymentDTO;
@@ -22,20 +23,25 @@ public class Merchant {
     @PostMapping(value = "{merchant}/pay")
     @TraceInvocation
     @TraceReturn
-    public ResponseEntity pay(@PathVariable String merchant, @RequestBody PaymentDTO payment){
+    public ResponseEntity<Object> pay(@PathVariable String merchant, @RequestBody PaymentDTO payment){
         Console.invocation(this.getClass());
         try {
             var request = HttpRequest.newBuilder(new URI(Constants.DTU_PAY_BASE_URL+merchant+"/"+payment.getToken()))
                     .POST(java.net.http.HttpRequest.BodyPublishers.ofString(String.valueOf(payment.getAmount())))
                     .header("content-type", "application/json")
                     .build();
-            var response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
-            response.body();
+            httpClient.send(request, HttpResponse.BodyHandlers.ofString());
         }
         catch(Exception e){
-            return new ResponseEntity(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity(HttpStatus.OK);
+        var receipt = new TransactionReceiptDTO();
+        receipt.setAmount(payment.getAmount());
+        receipt.setMessage(String.format(
+                "Successfully paid the requested amount from customer: %s to merchant %s",
+                payment.getToken(),
+                merchant));
+        return new ResponseEntity<>(receipt, HttpStatus.OK);
     }
 }

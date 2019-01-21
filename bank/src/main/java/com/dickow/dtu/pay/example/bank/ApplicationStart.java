@@ -11,7 +11,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableAutoConfiguration
-@ComponentScan("com.dickow.dtu.pay.example.bank.controllers")
+@ComponentScan(basePackages = {"com.dickow.dtu.pay.example.bank.controllers", "com.dickow.dtu.pay.example.bank.advice"})
 public class ApplicationStart{
 
     public static void main(String[] args) {

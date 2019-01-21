@@ -8,6 +8,7 @@ module bank {
 
     requires chortlin.interception;
     requires shared;
+    requires spring.webmvc;
 
     exports com.dickow.dtu.pay.example.bank.controllers;
 }

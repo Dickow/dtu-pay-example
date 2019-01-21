@@ -6,6 +6,7 @@ module dtupay {
     requires com.fasterxml.jackson.databind;
     requires spring.context;
     requires spring.beans;
+    requires spring.webmvc;
 
     requires chortlin.interception;
     requires shared;
