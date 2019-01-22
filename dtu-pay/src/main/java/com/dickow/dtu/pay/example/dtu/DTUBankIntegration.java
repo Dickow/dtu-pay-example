@@ -2,6 +2,7 @@ package com.dickow.dtu.pay.example.dtu;
 
 import com.dickow.chortlin.interception.annotations.TraceInvocation;
 import com.dickow.chortlin.interception.annotations.TraceReturn;
+import com.dickow.dtu.pay.example.shared.Console;
 import com.dickow.dtu.pay.example.shared.Constants;
 import com.dickow.dtu.pay.example.shared.dto.TransactionDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -21,6 +22,7 @@ public class DTUBankIntegration {
     @TraceReturn
     public boolean transferMoney(String merchant, String customer, Integer amount)
     {
+        Console.invocation(this.getClass());
         var transaction = new TransactionDTO(merchant, customer, amount);
         var url = amount > 9999 ? Constants.BANK_BASE_URL+"vip/transactions" : Constants.BANK_BASE_URL+"transactions";
 
